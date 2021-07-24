@@ -21,4 +21,5 @@ Route::get('register', 'AuthController@register')->name('register');
 Route::post('register', 'AuthController@postRegister')->name('auth.postRegister');
 Route::post('logout', 'AuthController@logout')->name('logout');
 
-Route::get('user/profile', 'AuthController@profile')->name('user.profile');
+Route::get('user/profile', 'UserController@profile')->name('user.profile');
+Route::post('user/update', 'UserController@update')->name('user.update');
