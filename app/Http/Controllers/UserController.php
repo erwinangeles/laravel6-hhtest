@@ -24,29 +24,27 @@ class UserController extends Controller
 
     public function update(Request $request){
         $request->validate([
-            'email' => 'email',
+            'name' => 'required',
+            'email' => 'required|email',
             'password' => 'confirmed'
         ]);
-       Auth::user()->update([
-           'email' => $request->email,
-           'password' => bcrypt($request->password),
-           'name' => $request->name,
-       ]);
+              
+        if($request->hasAny(['name', 'email'])){
+            Auth::user()->update($request->only(['name', 'email']));
+        };
 
-       DB::table('user_attributes')->where('user_id', '=', Auth::user()->id)->update([
-           'birthday' => $request->birthday,
-           'gender' => $request->gender,
-           'country' => $request->country
-       ]);
+       //update password if it's in the request
+       if($request->password){ Auth::user()->update(['password' => bcrypt($request->password)]);}
+        
+        if($request->hasAny(['birthday', 'gender', 'country'])){
+            Auth::user()->updateAttributes($request->only(['birthday', 'gender', 'country']));
+        }
 
        return back()->with('message', 'Profile successfully updated!');
     }
 
     public function generateAPIKey(){
-        DB::table('api_keys')->insert([
-            'user_id' => Auth::user()->id,
-            'key' => Str::random(80),
-        ]);
+        Auth::user()->generateKey();
         return back()->with('message', 'API Key successfully added!');
     }
 }
