@@ -19,12 +19,13 @@ class UserTest extends TestCase
      */
     public function test_a_new_user_creates_account_and_logs_in()
     {
-        //Simiulating a user being created
-        User::create([
+        //a user being created through register page
+        $this->post('/register', [
             'name' => 'Erwin Angeles',
             'email' => 'erwin@example.com',
-            'password' => bcrypt('Password123')
-        ]);
+            'password' => 'Password123',
+            'password_confirmation' => 'Password123'
+        ])->assertRedirect('/login');
 
         //Verifying user was created
         $this->assertTrue(User::where('email', '=', 'erwin@example.com')->exists());
@@ -51,18 +52,29 @@ class UserTest extends TestCase
         $response = $this->get('/user/profile')->assertOk();
     }
 
-    public function test_user_updates_details_on_profile(){
-        //uses dummy user to update
+    public function test_user_updates_attributes_on_profile_page(){
+        //user updates attributes through profile page
         $this->actingAs($user = factory(User::class)->create())->post('/user/update', [
             'name' => 'Sally Sue',
-            'password' => 'Password123',
-            'password_confirmation' => 'Password123',
-            'email' => 'updated@example.com'
+            'email' => 'updated@example.com',
+            'birthday' => '1990-12-01',
+            'country' => 'New Zeland',
         ]);
 
         //verifying user was updated
-        $this->assertTrue(User::where('email', '=', 'updated@example.com')->exists());
+        $this->assertEquals($user->name, 'Sally Sue');
+        $this->assertEquals($user->email, 'updated@example.com');
+        $this->assertEquals($user->attributes()->birthday, '1990-12-01');
+        $this->assertEquals($user->attributes()->country, 'New Zeland');
 
+    }
+
+    public function test_user_creating_api_key_on_profile_page(){
+        //creates dummy user to use profile
+        $this->actingAs($user = factory(User::class)->create())->post('user/apiKey/create');
+
+        //verifies a key was created for the user
+        $this->assertEquals(1, $user->apiKeys()->count());
     }
 
 }
