@@ -6,6 +6,7 @@ Use App\User;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 
 class AuthController extends Controller
 {
@@ -40,11 +41,13 @@ class AuthController extends Controller
             'password' => 'required|min:8|confirmed'
         ]);
         
-        User::create([
+        $user = User::create([
             'name' => $request->name,
             'email' => $request->email,
             'password' => bcrypt($request->password)
         ]);
+
+        DB::table('user_attributes')->insert(['user_id' => $user->id]);
 
         return redirect()->route('login');
     }
