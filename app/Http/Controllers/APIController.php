@@ -17,7 +17,15 @@ class APIController extends Controller
         if(!$query){return response()->json('Request failed. Invalid API key was provided.', 401);}
 
         $user = User::findOrFail($query->user_id);
-        return response()->json($user->attributes(), 201);
+
+        $data = [
+            "name" => $user->name,
+            "email" => $user->email,
+            "gender" => $user->attributes()->gender,
+            "birthday" => $user->attributes()->birthday,
+            "country" => $user->attributes()->country,
+        ];
+        return response()->json($data, 201);
     }
      function apiPost(Request $request){
          $key = $request->input('api_key');
@@ -28,9 +36,18 @@ class APIController extends Controller
         if(!$query){return response()->json('Request failed. Invalid API key was provided.', 401);}
         
         //update Attributes
+        $user = User::findOrFail($query->user_id);
         
-
-        return response()->json('User successfully updated', 201);
+        if($request->hasAny(['name', 'email'])){
+            $user->update($request->only(['name', 'email']));
+        }
+       
+        if($request->hasAny(['birthday', 'gender', 'country'])){
+           $user->updateAttributes($request->only(
+            ['birthday', 'gender', 'country']
+           ));
+        }
+        return response()->json('User successfully updated.', 201);
 
     }
 }
