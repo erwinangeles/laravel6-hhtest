@@ -34,7 +34,7 @@
     </form>
 </div>
 <div class="container bg-light" style="margin-top: 20px; padding: 20px;">
-    <table class="table">
+    <table class="table table-responsive">
         <thead>
           <tr>
             <th>API KEYS</th>
