@@ -19,14 +19,14 @@
 
         <div id="attributes">
             <label for="name">Birthday: </label>
-            <input class="form-control" type="date" name="birthday" value="{{old('birthday', $user->attributes()->first() ? $user->attributes()->first()->birthday : '')}}">  
+            <input class="form-control" type="date" name="birthday" value="{{old('birthday', $user->attributes() ? $user->attributes()->birthday : '')}}">  
 
             <label for="name">Gender: </label>
-            <input class="form-control" name="gender" value="{{old('gender', $user->attributes()->first() ? $user->attributes()->first()->gender : '')}}">
+            <input class="form-control" name="gender" value="{{old('gender', $user->attributes() ? $user->attributes()->gender : '')}}">
 
 
             <label for="name">Country: </label>
-            <input class="form-control" name="country" value="{{old('country', $user->attributes()->first() ? $user->attributes()->first()->country : '')}}">
+            <input class="form-control" name="country" value="{{old('country', $user->attributes() ? $user->attributes()->country : '')}}">
         </div>
         <br>
 
