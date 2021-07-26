@@ -58,7 +58,7 @@ class UserTest extends TestCase
             'password' => 'Password123',
             'password_confirmation' => 'Password123',
             'email' => 'updated@example.com'
-        ])->assertOk();
+        ]);
 
         //verifying user was updated
         $this->assertTrue(User::where('email', '=', 'updated@example.com')->exists());
