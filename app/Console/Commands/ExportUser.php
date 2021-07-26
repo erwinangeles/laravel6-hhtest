@@ -41,6 +41,8 @@ class ExportUser extends Command
         //
          $arg =  $this->argument('user');
          $user = User::where('id', '=', $arg)->orWhere('email', '=', $arg)->first();
+
+         if(!$user){return $this->error('No user found with those specifications');}
          
          $data = [
              [
@@ -62,6 +64,6 @@ class ExportUser extends Command
         }
         
         fclose($file);
-        $this->info("Data was exported successfully for ". $user->name . '.');
+        return $this->info("Data was exported successfully for ". $user->name . '.');
     }
 }
