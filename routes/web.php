@@ -23,3 +23,5 @@ Route::post('logout', 'AuthController@logout')->name('logout');
 
 Route::get('user/profile', 'UserController@profile')->name('user.profile');
 Route::post('user/update', 'UserController@update')->name('user.update');
+
+Route::post('user/apiKey/create', 'UserController@generateAPIKey')->name('user.generateAPIKey');

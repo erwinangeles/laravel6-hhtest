@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Str;
 
 use App\User;
 use Auth;
@@ -39,5 +40,13 @@ class UserController extends Controller
        ]);
 
        return back()->with('message', 'Profile successfully updated!');
+    }
+
+    public function generateAPIKey(){
+        DB::table('api_keys')->insert([
+            'user_id' => Auth::user()->id,
+            'key' => Str::random(80),
+        ]);
+        return back()->with('message', 'API Key successfully added!');
     }
 }

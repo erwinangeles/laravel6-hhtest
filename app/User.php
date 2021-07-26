@@ -42,4 +42,8 @@ class User extends Authenticatable
         return DB::table('user_attributes')->where('user_id', $this->id)->get();
     }
 
+    public function apiKeys(){
+        return DB::table('api_keys')->where('user_id', $this->id)->get();
+    }
+
 }

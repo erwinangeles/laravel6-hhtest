@@ -33,7 +33,32 @@
         <button type="submit" class="btn btn-primary">Update Profile</button>
     </form>
 </div>
-
+<div class="container bg-light" style="margin-top: 20px; padding: 20px;">
+    <table class="table">
+        <thead>
+          <tr>
+            <th>API KEYS</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+           @forelse($user->apiKeys() as $apiKey)
+          <tr>
+            <td>{{$apiKey->key}}</td>
+          </tr>
+           @empty
+           <tr>
+            <td>No API Keys have been created yet. Click the button below to generate one.</td> 
+           </tr>
+           @endforelse
+          </tr>
+        </tbody>
+      </table>
+    <form action="{{route('user.generateAPIKey')}}" method="POST">
+        @csrf
+        <button type="submit" class="btn btn-secondary">Generate Key</button>
+    </form>
+</div>
 <script>
   
 </script>
