@@ -16,9 +16,21 @@
         <label for="name">Confirm New Password: </label>
         <input class="form-control" name="password_confirmation" type="password" value="">
 
-        <br>
-        <button type="submit" class="btn btn-primary">Update Profile</button>
 
+        <div id="attributes">
+            <label for="name">Birthday: </label>
+            <input class="form-control" type="date" name="birthday" value="{{old('birthday', $user->attributes()->first() ? $user->attributes()->first()->birthday : '')}}">  
+
+            <label for="name">Gender: </label>
+            <input class="form-control" name="gender" value="{{old('gender', $user->attributes()->first() ? $user->attributes()->first()->gender : '')}}">
+
+
+            <label for="name">Country: </label>
+            <input class="form-control" name="country" value="{{old('country', $user->attributes()->first() ? $user->attributes()->first()->country : '')}}">
+        </div>
+        <br>
+
+        <button type="submit" class="btn btn-primary">Update Profile</button>
     </form>
 </div>
 
