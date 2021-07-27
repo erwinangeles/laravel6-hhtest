@@ -33,7 +33,23 @@
       </nav>
 </head>
 <body>
+  <div class="container" style="margin-top: 20px;">
+    <div class="row">
+        @if(session()->has('message'))
+          <div class="alert alert-success" style="width: 100%">
+              {{ session('message') }}
+          </div>
+        @endif
 
+        @if ($errors->any())
+            @foreach ($errors->all() as $error)
+            <div class="alert alert-danger" style="width: 100%">
+              {{ $error }}
+            </div>
+        @endforeach
+        @endif
+    </div>
+  </div>
     @yield('body')
     <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
