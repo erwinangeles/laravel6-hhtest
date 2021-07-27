@@ -48,15 +48,15 @@ class ExportUser extends Command
              [
              $user->name, 
              $user->email, 
-             $user->attributes()->first()->birthday, 
-             $user->attributes()->first()->gender, 
-             $user->attributes()->first()->country
+             $user->attributes()->birthday, 
+             $user->attributes()->gender, 
+             $user->attributes()->country
              ]
          ];
          
         $headers = ['Name', 'Email', 'Birthday', 'Gender', 'Country'];
         
-        $file = fopen('export.csv', 'w');
+        $file = fopen('export_single_user.csv', 'w');
         
         fputcsv($file, $headers);
         foreach ($data as $row) {
