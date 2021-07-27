@@ -49,7 +49,7 @@ class AuthController extends Controller
 
         DB::table('user_attributes')->insert(['user_id' => $user->id]);
 
-        return redirect()->route('login');
+        return redirect()->route('login')->with(['message' => 'Successfully created account. Please login to continue.']);
     }
 
     public function logout(){
