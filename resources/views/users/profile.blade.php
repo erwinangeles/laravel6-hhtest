@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('body')
-<div class="container bg-light" style="margin-top: 20px; padding: 20px;">
+<div class="container bg-light" style="padding: 20px;">
     Welcome, <strong>{{$user->name}}.</strong> You can view or update your profile details below.
     <hr>
     <form action="{{route('user.update')}}" method="POST">
