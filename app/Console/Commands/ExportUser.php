@@ -48,9 +48,9 @@ class ExportUser extends Command
              [
              $user->name, 
              $user->email, 
-             $user->attributes()->birthday, 
-             $user->attributes()->gender, 
-             $user->attributes()->country
+             $user->attributes->birthday, 
+             $user->attributes->gender, 
+             $user->attributes->country
              ]
          ];
          

@@ -49,9 +49,9 @@ class ExportUsers extends Command
         foreach($users as $user){
             $row['Name'] = $user->name;
             $row['Email'] = $user->email;
-            $row['Birthday'] = $user->attributes()->birthday;
-            $row['Gender'] = $user->attributes()->gender;
-            $row['Country'] = $user->attributes()->country;
+            $row['Birthday'] = $user->attributes->birthday;
+            $row['Gender'] = $user->attributes->gender;
+            $row['Country'] = $user->attributes->country;
             fputcsv($file, array($row['Name'], $row['Email'], $row['Birthday'], $row['Gender'], $row['Country']));
         }
         fclose($file);
