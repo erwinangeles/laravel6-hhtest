@@ -48,13 +48,19 @@ class UserTest extends TestCase
 
     public function test_authenticated_users_can_see_profile_page(){
         //creates dummy user to use profile
-        $this->actingAs(factory(User::class)->create());
+        $this->actingAs($user = factory(User::class)->create());
+        //sets default attributes
+        $user->setAttributes();
         $response = $this->get('/user/profile')->assertOk();
     }
 
     public function test_user_updates_attributes_on_profile_page(){
+        //creates dummy user to update later
+        $user = factory(User::class)->create();
+        //sets default attributes
+        $user->setAttributes();
         //user updates attributes through profile page
-        $this->actingAs($user = factory(User::class)->create())->post('/user/update', [
+        $this->actingAs($user)->post('/user/update', [
             'name' => 'Sally Sue',
             'email' => 'updated@example.com',
             'birthday' => '1990-12-01',
@@ -64,8 +70,8 @@ class UserTest extends TestCase
         //verifying user was updated
         $this->assertEquals($user->name, 'Sally Sue');
         $this->assertEquals($user->email, 'updated@example.com');
-        $this->assertEquals($user->attributes()->birthday, '1990-12-01');
-        $this->assertEquals($user->attributes()->country, 'New Zeland');
+        $this->assertEquals($user->attributes->birthday, '1990-12-01');
+        $this->assertEquals($user->attributes->country, 'New Zeland');
 
     }
 
