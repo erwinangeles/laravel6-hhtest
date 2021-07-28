@@ -1,6 +1,8 @@
 <?php
 
 use Illuminate\Http\Request;
+use App\User;
+use App\ApiKey;
 
 /*
 |--------------------------------------------------------------------------
@@ -18,5 +20,27 @@ use Illuminate\Http\Request;
 // });
 
 
-Route::get('users', 'APIController@apiGet');
-Route::post('users', 'APIController@apiPost');
+Route::middleware('custom.auth')->get('/users', function (Request $request) {
+    $user = ApiKey::where('key', '=', $request->api_key)->firstOrFail()->user;
+
+    $data = [
+        'name' => $user->name,
+        'email' => $user->email,
+        'birthday' => $user->attributes->birthday,
+        'gender' => $user->attributes->gender,
+        'country' => $user->attributes->country
+    ];
+
+    return response()->json($data, 201);
+});
+
+
+Route::middleware('custom.auth')->post('/users', function (Request $request) {
+    $user = ApiKey::where('key', '=', $request->api_key)->firstOrFail()->user;
+
+    $user->update($request->only(['name', 'email']));
+    $user->attributes->update($request->only(['birthday', 'gender', 'country']));
+
+
+    return response()->json('User data and attributes successfully updated.', 201);
+});
