@@ -8,6 +8,9 @@ use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
 
+use App\ApiKey;
+use App\UserAttribute;
+
 class User extends Authenticatable
 {
     use Notifiable;
@@ -40,36 +43,23 @@ class User extends Authenticatable
     ];
 
     public function attributes(){
-        //if no row exists for user yet, create it
-        $query =  DB::table('user_attributes')->where('user_id', '=', $this->id)->first();
-
-        if(!$query){
-            DB::table('user_attributes')->where('user_id', '=', $this->id)->insert(['user_id' => $this->id]);
-        }
-        return DB::table('user_attributes')->where('user_id', $this->id)->first();
+        return $this->hasOne(UserAttribute::class);
     }
 
-    public function updateAttributes($data){
-        //if no row exists for user yet, create it
-        if(!$this->attributes()){
-            DB::table('user_attributes')->where('user_id', '=', $this->id)->insert(['user_id' => $this->id]);
-        }
-
-        DB::table('user_attributes')->where('user_id', '=', $this->id)->update($data);
-        return $this->attributes();
+    public function setAttributes(){
+        return UserAttribute::create(['user_id' => $this->id]);
     }
 
     public function apiKeys(){
-        return DB::table('api_keys')->where('user_id', $this->id)->get();
+        return $this->hasMany(ApiKey::class);
     }
 
     public function generateKey(){
         $key = Str::random(80);
-         DB::table('api_keys')->insert([
+        $this->apiKeys()->create([
             'user_id' => $this->id,
             'key' => $key,
         ]);
-
         return $key;
     }
 
