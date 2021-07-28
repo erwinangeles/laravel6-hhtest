@@ -36,9 +36,11 @@ class UserController extends Controller
        //update password if it's in the request
        if($request->password){ Auth::user()->update(['password' => bcrypt($request->password)]);}
         
-        if($request->hasAny(['birthday', 'gender', 'country'])){
-            Auth::user()->updateAttributes($request->only(['birthday', 'gender', 'country']));
-        }
+        Auth::user()->attributes->update([
+            'birthday' => $request->birthday,
+            'gender' => $request->gender,
+            'country' => $request->country
+        ]);
 
        return back()->with('message', 'Profile successfully updated!');
     }
