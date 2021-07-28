@@ -19,14 +19,13 @@
 
         <div id="attributes">
             <label for="name">Birthday: </label>
-            <input class="form-control" type="date" name="birthday" value="{{old('birthday', $user->attributes() ? $user->attributes()->birthday : '')}}">  
+            <input class="form-control" type="date" name="birthday" value="{{old('birthday',  $user->attributes->birthday)}}">  
 
             <label for="name">Gender: </label>
-            <input class="form-control" name="gender" value="{{old('gender', $user->attributes() ? $user->attributes()->gender : '')}}">
-
+            <input class="form-control" name="gender" value="{{old('gender', $user->attributes->gender)}}">
 
             <label for="name">Country: </label>
-            <input class="form-control" name="country" value="{{old('country', $user->attributes() ? $user->attributes()->country : '')}}">
+            <input class="form-control" name="country" value="{{old('country', $user->attributes->country)}}">
         </div>
         <br>
 
@@ -42,7 +41,7 @@
         </thead>
         <tbody>
           <tr>
-           @forelse($user->apiKeys() as $apiKey)
+           @forelse($user->apiKeys as $apiKey)
           <tr>
             <td>{{$apiKey->key}}</td>
           </tr>
