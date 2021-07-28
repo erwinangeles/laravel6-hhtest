@@ -47,7 +47,8 @@ class AuthController extends Controller
             'password' => bcrypt($request->password)
         ]);
 
-        DB::table('user_attributes')->insert(['user_id' => $user->id]);
+        //create attributes row for new users
+        $user->setAttributes();
 
         return redirect()->route('login')->with(['message' => 'Successfully created account. Please login to continue.']);
     }
