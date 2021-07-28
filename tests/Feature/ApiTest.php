@@ -43,6 +43,8 @@ class ApiTest extends TestCase
     {
         $this->actingAs($user = factory(User::class)->create());
 
+        //sets default attributes;
+        $user->setAttributes();
         //creates api key for newly created user
         $key = $user->generateKey();
         
@@ -55,6 +57,8 @@ class ApiTest extends TestCase
     public function test_successful_api_post_request_with_data()
     {
         $user = factory(User::class)->create();
+        //sets default attributes;
+        $user->setAttributes();
 
         //creates api key to use
         $key = $user->generateKey();
@@ -67,6 +71,6 @@ class ApiTest extends TestCase
         
         //verifies updates to user attributes were made
         $this->assertEquals(User::find($user->id)->name, 'Sally Sue');
-        $this->assertEquals(User::find($user->id)->attributes()->country, 'USA');
+        $this->assertEquals(User::find($user->id)->attributes->country, 'USA');
     }
 }
